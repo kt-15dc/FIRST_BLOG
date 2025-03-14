@@ -1,7 +1,7 @@
-const HeroSection = () => {
+export const HeroSection = () => {
     return (
         <main className="container px-4 py-8 lg:py-16 mx-auto">
-          <div className="flex flex-col lg:flex-row items-center">
+          <div className="flex flex-col lg:flex-row items-center mt-16 sm:mt-20">
             <div className="lg:w-1/3 mb-8 lg:mb-0 lg:pr-8">
               <h1 className="text-4xl lg:text-5xl font-semibold mb-4">
                 Stay <br className="hidden lg:block" />
@@ -36,4 +36,3 @@ const HeroSection = () => {
       );
     }
   
-  export default HeroSection;
