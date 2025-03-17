@@ -43,7 +43,7 @@ export const Footer = () => {
           </ul>
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 flex items-center justify-center">
+        <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400 flex items-center justify-center">
           © 2025 FEIBITE. All Rights Reserved.
         </span>
       </div>
