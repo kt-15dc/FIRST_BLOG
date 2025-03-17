@@ -1,18 +1,16 @@
 import React from "react";
-import {NavBar} from "../components/layout/NavBar";
-import {HeroSection} from "../components/layout/HeroSection";
-import {Footer} from "../components/layout/Footer";
-import {ArticleSection} from "../components/layout/ArticleSection";
+import { NavBar } from "../components/layout/NavBar";
+import { HeroSection } from "../components/layout/HeroSection";
+import { Footer } from "../components/layout/Footer";
+import { ArticleSection } from "../components/layout/ArticleSection";
 
-const App = () => {
-  return (
-    <div>
-      <NavBar />
-      <HeroSection />
-      <ArticleSection />
-      <Footer />
-    </div>
-  );
-};
+const App = () => (
+  <div>
+    <NavBar />
+    <HeroSection />
+    <ArticleSection />
+    <Footer />
+  </div>
+);
 
 export default App;
