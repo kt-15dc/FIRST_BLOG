@@ -9,11 +9,8 @@ export const ArticleSection = () => {
 
   return (
     <div className="w-full flex flex-col items-center sm:px-20 px-5">
-      {/* Container to Match Search Bar Width */}
       <div className="bg-[#F4F2EE] p-4 rounded-lg w-full max-w-full lg:max-w-7xl">
-        {/* Desktop Layout (Flex Row) | Mobile Layout (Flex Column) */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          {/* Categories (Desktop) */}
           <div className="hidden md:flex gap-6">
             {categories.map((category) => (
               <button
@@ -29,15 +26,12 @@ export const ArticleSection = () => {
               </button>
             ))}
           </div>
-
-          {/* Search Input (Always Visible) */}
           <div className="relative w-full md:w-72">
             <input
               type="text"
               placeholder="Search"
               className="w-full px-4 py-3 pr-10 bg-white border rounded-lg text-gray-600 focus:outline-none"
             />
-            {/* ✅ SVG Search Icon */}
             <svg
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"
               xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +47,6 @@ export const ArticleSection = () => {
               />
             </svg>
           </div>
-
-          {/* Category Dropdown (Mobile Only) */}
           <div className="w-full md:hidden">
             <label className="block text-gray-700 font-medium mb-1">Category</label>
             <div className="relative">
@@ -69,7 +61,6 @@ export const ArticleSection = () => {
                   </option>
                 ))}
               </select>
-              {/* ✅ SVG Dropdown Arrow */}
               <svg
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5 pointer-events-none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,8 +79,6 @@ export const ArticleSection = () => {
           </div>
         </div>
       </div>
-
-      {/* Blog Posts Section - Matches Search Bar Width */}
       <div className="w-full max-w-full lg:max-w-7xl mt-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {blogPosts.map((post) => (
