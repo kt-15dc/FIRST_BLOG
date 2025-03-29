@@ -1,16 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BlogCard } from "./BlogCard";
-import { blogPosts } from "../../data/blogPosts";
+import axios from "axios";
 
-export const ArticleSection = () => {
+export const ArticleSection = ({ fetchData }) => {
   const categories = ["Highlight", "Cat", "Inspiration", "General"];
   const [activeCategory, setActiveCategory] = useState("Highlight");
-  const [selectedCategory, setSelectedCategory] = useState("Highlight");
+
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // ✅ เพิ่ม State
+
+  useEffect(() => {
+    setPage(1);
+    setPosts([]);
+    setHasMore(true);
+  }, [activeCategory]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [page, activeCategory]);
+
+  const fetchPosts = async () => {
+    setIsLoading(true); // ✅ เริ่มโหลดข้อมูล
+    try {
+      const categoryParam = activeCategory === "Highlight" ? "" : activeCategory;
+      const response = await axios.get("https://blog-post-project-api.vercel.app/posts", {
+        params: {
+          page: page,
+          limit: 6,
+          category: categoryParam
+        }
+      });
+
+      if (activeCategory === "Highlight" && page === 1) {
+        setPosts(response.data.posts.slice(0, 6));
+      } else {
+        setPosts((prev) => [...prev, ...response.data.posts]);
+      }
+
+      if (response.data.currentPage >= response.data.totalPages) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    } finally {
+      setIsLoading(false); // ✅ โหลดเสร็จ
+    }
+  };
+
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <div className="w-full flex flex-col items-center sm:px-20 px-5">
       <div className="bg-[#F4F2EE] p-4 rounded-lg w-full max-w-full lg:max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          {/* Desktop category buttons */}
           <div className="hidden md:flex gap-6">
             {categories.map((category) => (
               <button
@@ -19,13 +68,15 @@ export const ArticleSection = () => {
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   activeCategory === category
                     ? "bg-[#DEDAD3] text-black font-bold"
-                    : "text-gray-600  hover:bg-gray-200"
+                    : "text-gray-600 hover:bg-gray-200"
                 }`}
               >
                 {category}
               </button>
             ))}
           </div>
+
+          {/* Search Bar */}
           <div className="relative w-full md:w-72">
             <input
               type="text"
@@ -47,12 +98,14 @@ export const ArticleSection = () => {
               />
             </svg>
           </div>
+
+          {/* Mobile category dropdown */}
           <div className="w-full md:hidden">
             <label className="block text-gray-700 font-medium mb-1">Category</label>
             <div className="relative">
               <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                value={activeCategory}
+                onChange={(e) => setActiveCategory(e.target.value)}
                 className="w-full px-4 py-3 bg-white border rounded-lg text-gray-600 focus:outline-none appearance-none"
               >
                 {categories.map((category) => (
@@ -69,19 +122,16 @@ export const ArticleSection = () => {
                 stroke="currentColor"
                 strokeWidth="2"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 8l4 4 4-4"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 8l4 4 4-4" />
               </svg>
             </div>
           </div>
         </div>
       </div>
+
       <div className="w-full max-w-full lg:max-w-7xl mt-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {blogPosts.map((post) => (
+          {posts.map((post) => (
             <BlogCard
               key={post.id}
               image={post.image}
@@ -89,10 +139,26 @@ export const ArticleSection = () => {
               title={post.title}
               description={post.description}
               author={post.author}
-              date={post.date}
+              date={new Date(post.date).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+              })}
             />
           ))}
         </div>
+
+        {hasMore && (
+          <div className="text-center mt-8">
+            <button
+              onClick={handleLoadMore}
+              disabled={isLoading} // ปิดปุ่มระหว่างโหลด
+              className="hover:text-muted-foreground font-medium underline"
+            >
+              {isLoading ? "Loading..." : "View more"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
