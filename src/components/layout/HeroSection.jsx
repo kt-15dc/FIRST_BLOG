@@ -13,7 +13,7 @@ export const HeroSection = () => (
         </p>
       </div>
       <img
-        src="src/assets/PIC1.avif"
+        src="src/assets/PIC1.png"
         alt="Person with a cat"
         className="h-[530px] object-cover rounded-lg shadow-lg lg:w-1/3 mx-4 mb-8 lg:mb-0"
       />
